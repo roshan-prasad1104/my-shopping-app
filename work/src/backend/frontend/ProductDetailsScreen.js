@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useCart } from './CartContext';
 
-export default function ProductDetailsScreen({ route }) {
+export default function ProductDetailsScreen({ route, navigation }) {
     const { item } = route.params;
     const { addToCart } = useCart();
 
@@ -13,13 +13,7 @@ export default function ProductDetailsScreen({ route }) {
                 <Text style={styles.name}>{item.title}</Text>
                 <Text style={styles.price}>${item.price}</Text>
                 <Text style={styles.description}>
-                    Experience premium quality with this item. Perfect for any occasion, crafted with comfortable materials to ensure you look and feel your best.
-
-                    Features:
-                    • Premium Fabric
-                    • Modern Fit
-                    • Durable Stitching
-                    • Easy Care
+                    {item.description || "Experience premium quality with this item. Perfect for any occasion, crafted with comfortable materials to ensure you look and feel your best.\n\nFeatures: \n• Premium Fabric \n• Modern Fit \n• Durable Stitching \n• Easy Care"}
                 </Text>
 
                 <View style={styles.buttonContainer}>
@@ -35,7 +29,10 @@ export default function ProductDetailsScreen({ route }) {
 
                     <TouchableOpacity
                         style={[styles.button, styles.buyButton]}
-                        onPress={() => Alert.alert('Purchase Successful', `You bought ${item.title}!`)}
+                        onPress={() => navigation.navigate('Checkout', {
+                            items: [item],
+                            total: item.price
+                        })}
                     >
                         <Text style={styles.buttonText}>Buy Now</Text>
                     </TouchableOpacity>

@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useCart } from './CartContext';
 
-export default function CartScreen() {
+export default function CartScreen({ navigation }) {
     const { cartItems, removeFromCart } = useCart();
+    const totalBill = cartItems.reduce((acc, item) => acc + item.price, 0);
 
     if (cartItems.length === 0) {
         return (
@@ -36,7 +37,17 @@ export default function CartScreen() {
                 )}
             />
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.checkoutButton}>
+                <View style={styles.billContainer}>
+                    <Text style={styles.totalLabel}>Total Bill:</Text>
+                    <Text style={styles.totalPrice}>${totalBill.toFixed(2)}</Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.checkoutButton}
+                    onPress={() => navigation.navigate('Checkout', {
+                        items: cartItems,
+                        total: totalBill
+                    })}
+                >
                     <Text style={styles.checkoutText}>Proceed to Checkout</Text>
                 </TouchableOpacity>
             </View>
@@ -110,6 +121,23 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#334155',
         paddingTop: 16,
+    },
+    billContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 15,
+        paddingHorizontal: 5
+    },
+    totalLabel: {
+        color: '#94a3b8',
+        fontSize: 16,
+        fontWeight: '600'
+    },
+    totalPrice: {
+        color: '#4ade80',
+        fontSize: 22,
+        fontWeight: 'bold'
     },
     checkoutButton: {
         backgroundColor: '#22c55e',

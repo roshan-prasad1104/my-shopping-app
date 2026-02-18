@@ -23,6 +23,8 @@ import CartScreen from './src/backend/frontend/CartScreen';
 import ProductDetailsScreen from './src/backend/frontend/ProductDetailsScreen';
 import LoginScreen from './src/backend/frontend/LoginScreen';
 import AdminDashboard from './src/backend/frontend/AdminDashboard';
+import CheckoutScreen from './src/backend/frontend/CheckoutScreen';
+import OrderTrackingScreen from './src/backend/frontend/OrderTrackingScreen';
 import { ProductProvider, useProducts } from './src/backend/frontend/ProductContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from './src/backend/firebaseConfig';
@@ -298,6 +300,16 @@ export default function App() {
                   title: 'My Cart'
                 }} />
                 <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ title: 'Product Details' }} />
+                <Stack.Screen name="Checkout" component={CheckoutScreen} options={{
+                  title: 'Secure Checkout',
+                  headerStyle: { backgroundColor: '#0f172a' },
+                  headerTintColor: '#fff'
+                }} />
+                <Stack.Screen name="OrderTracking" component={OrderTrackingScreen} options={{
+                  title: 'Track Your Order',
+                  headerStyle: { backgroundColor: '#0f172a' },
+                  headerTintColor: '#fff'
+                }} />
               </>
             )}
           </Stack.Navigator>
@@ -321,7 +333,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     padding: 10,
-    borderRadiusBottom: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
     paddingVertical: 12
   },
   headerText: {
